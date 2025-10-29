@@ -2,22 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="./img/logo.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>HW 12</title>
     <link rel="stylesheet" href="./css/styles.css" />
+    <script type="module" src="./main.js"></script>
   </head>
   <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
-
     <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
+      <form class="form search-form">
+        <label>
+          <input
+            type="text"
+            name="search-text"
+            placeholder="Search images..."
+          />
+        </label>
+        <button type="submit">Search</button>
+      </form>
+      <ul class="gallery"></ul>
+      <span class="loader hide">Loading images, please wait...</span>
+      <button class="button-more hide">Load more</button>
     </main>
-
-    <load src="./partials/footer.html" />
-
-    <script type="module" src="./main.js"></script>
   </body>
 </html>

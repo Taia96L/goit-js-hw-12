@@ -1,0 +1,66 @@
+.gallery {
+  display: grid;
+  gap: 24px;
+  max-width: max-content;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gallery-item {
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  grid-template-rows: repeat(2, auto);
+  border: 1px solid #808080;
+
+  .link {
+    grid-column: 1/-1;
+    grid-row: 1/-1;
+
+    img {
+      aspect-ratio: 9/5;
+      object-fit: cover;
+    }
+  }
+
+  .information {
+    grid-row: 2/3;
+    text-align: center;
+    background: #fff;
+    padding-top: 4px;
+
+    h4 {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 1.33333;
+      letter-spacing: 0.04em;
+    }
+
+    p {
+      font-size: 12px;
+      line-height: 2;
+      letter-spacing: 0.04em;
+    }
+  }
+
+  .like {
+    grid-column: 1/2;
+  }
+
+  .views {
+    grid-column: 2/3;
+  }
+
+  .comments {
+    grid-column: 3/4;
+  }
+
+  .downloads {
+    grid-column: 4/5;
+  }
+}
