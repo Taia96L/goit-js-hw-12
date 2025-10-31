@@ -8,16 +8,21 @@ import {
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
+  disableLoadMoreButton,
+  enableLoadMoreButton,
+  showInputError,
+  hideInputError,
 } from './js/render-functions.js';
 
 const form = document.querySelector('.form');
-const loadMoreButton = document.querySelector('.button-more');
 const gallery = document.querySelector('.gallery');
 let pageNumber = 1;
 let searchInputValue = '';
 
 form.addEventListener('submit', submitHandler);
-loadMoreButton.addEventListener('click', moreButtonHandler);
+document
+  .querySelector('.button-more')
+  .addEventListener('click', moreButtonHandler);
 
 async function submitHandler(e) {
   e.preventDefault();
@@ -31,11 +36,12 @@ async function submitHandler(e) {
 
   try {
     if (!searchInputValue.length) {
-      searchInput.classList.add('error');
+      showInputError(searchInput);
       showErrorPopup("Input shouldn't be empty!");
       return;
     }
-    searchInput.classList.remove('error');
+
+    hideInputError(searchInput);
     showLoader();
 
     const { data, totalPages } = await getImagesByQuery(
@@ -45,12 +51,14 @@ async function submitHandler(e) {
 
     if (!data.length) {
       throw new Error('No images found!');
-    } else {
-      createGallery(data);
     }
+
+    createGallery(data);
 
     if (pageNumber < totalPages) {
       showLoadMoreButton();
+    } else {
+      showInfoPopup("We're sorry, but you've reached the end of search results.");
     }
   } catch (error) {
     showErrorPopup(error.message);
@@ -63,11 +71,9 @@ async function submitHandler(e) {
 
 async function moreButtonHandler(e) {
   e.preventDefault();
-  const button = e.currentTarget;
-
   pageNumber += 1;
   showLoader();
-  button.disabled = true;
+  disableLoadMoreButton();
 
   try {
     const { data, totalPages } = await getImagesByQuery(
@@ -85,7 +91,6 @@ async function moreButtonHandler(e) {
     }
 
     const galleryItem = gallery.querySelector('.gallery-item');
-
     if (galleryItem) {
       const itemHeight = galleryItem.getBoundingClientRect().height;
       window.scrollBy({
@@ -98,13 +103,13 @@ async function moreButtonHandler(e) {
     showErrorPopup(error.message);
   } finally {
     hideLoader();
-    button.disabled = false;
+    enableLoadMoreButton();
   }
 }
 
 function showErrorPopup(message) {
   iziToast.error({
-    message: message,
+    message,
     position: 'topRight',
     timeout: 3000,
   });
@@ -112,7 +117,7 @@ function showErrorPopup(message) {
 
 function showInfoPopup(message) {
   iziToast.info({
-    message: message,
+    message,
     position: 'topRight',
     timeout: 3000,
   });

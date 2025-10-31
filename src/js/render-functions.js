@@ -79,3 +79,21 @@ export {
   showLoadMoreButton,
   hideLoadMoreButton,
 };
+
+export function disableLoadMoreButton() {
+  const button = document.querySelector('.button-more');
+  if (button) button.disabled = true;
+}
+
+export function enableLoadMoreButton() {
+  const button = document.querySelector('.button-more');
+  if (button) button.disabled = false;
+}
+
+export function showInputError(input) {
+  if (input) input.classList.add('error');
+}
+
+export function hideInputError(input) {
+  if (input) input.classList.remove('error');
+}
